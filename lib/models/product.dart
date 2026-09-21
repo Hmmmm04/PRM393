@@ -1,37 +1,62 @@
+//Code lớp product: id, name, image, price, description
 class Product {
   final String id;
   final String name;
-  final double price;
   final String? image;
+  final double price;
   final String? description;
 
   Product({
     required this.id,
     required this.name,
-    required this.price,
     this.image,
+    required this.price,
     this.description,
   });
 
-  // Khởi tạo từ Map (JSON)
-  factory Product.fromMap(Map<String, dynamic> map) {
+  Product toCopy({
+    String? id,
+    String? name,
+    String? image,
+    double? price,
+    String? description,
+  }) {
     return Product(
-      id: map['id']?.toString() ?? '',
-      name: map['name']?.toString() ?? '',
-      price: (map['price'] as num?)?.toDouble() ?? 0.0,
-      image: map['image']?.toString(),
-      description: map['description']?.toString(),
+      id: id ?? this.id,
+      name: name ?? this.name,
+      image: image ?? this.image,
+      price: price ?? this.price,
+      description: description ?? this.description,
     );
   }
 
-  // Chuyển đối tượng Product thành Map (JSON)
-  Map<String, dynamic> toMap() {
+  //Chuyển đổi từ JSON sang đối tượng Product
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: (json['id'] ?? "") as String,
+      name: (json['name'] ?? "") as String,
+      image: (json['image'] ?? "") as String,
+      price: (json['price'] as num).toDouble(),
+      description: (json['description'] ?? "") as String,
+    );
+  }
+
+  factory Product.fromMap(Map<String, dynamic> map) {
+    return Product.fromJson(map);
+  }
+
+  //Chuyển đổi từ Product sang đối tượng JSON
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'name': name,
+      'image': image,
       'price': price,
-      if (image != null) 'image': image,
-      if (description != null) 'description': description,
+      'description': description,
     };
+  }
+
+  Map<String, dynamic> toMap() {
+    return toJson();
   }
 }
