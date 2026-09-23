@@ -1,22 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:lab/Screens/core_widgets_demo.dart';
 import 'package:lab/Screens/input_controls_demo.dart';
+import 'package:lab/Screens/layout_demo.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
+
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  var currentValue = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.yellowAccent,
+        backgroundColor: currentValue ? Colors.blueAccent : Colors.greenAccent,
         title: const Center(child: Text('Homepage')),
         leading: const Icon(Icons.menu),
         actions: [
-          TextButton(
-            style: const ButtonStyle(),
-            onPressed: () {},
-            child: const Text('Login'),
+          Switch(
+            value: currentValue,
+            onChanged: (value) {
+              setState(() {
+                currentValue = value;
+              });
+            },
           ),
         ],
       ),
@@ -46,6 +57,18 @@ class Homepage extends StatelessWidget {
                 );
               },
               child: const Text('Exercise 2 - Input Controls Demo'),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LayoutDemo(),
+                  ),
+                );
+              },
+              child: const Text('Exercise 3 - Layout Demo'),
             ),
           ],
         ),
